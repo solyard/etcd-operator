@@ -31,11 +31,13 @@ var _ = Describe("EtcdCluster Webhook", func() {
 			etcdCluster.Default()
 			gomega.Expect(etcdCluster.Spec.Replicas).To(gomega.BeNil(), "User should have an opportunity to create cluster with 0 replicas")
 			gomega.Expect(etcdCluster.Spec.Storage.Size).To(gomega.Equal(resource.MustParse("4Gi")))
+			gomega.Expect(etcdCluster.Spec.Image).To(gomega.Equal(defaultEtcdImage))
 		})
 
 		It("Should not override fields with default values if not empty", func() {
 			etcdCluster := &EtcdCluster{
 				Spec: EtcdClusterSpec{
+					Image:    "myregistry.local/etcd:v1.1.1",
 					Replicas: ptr.To(int32(5)),
 					Storage: Storage{
 						StorageClass: "local-path",
@@ -46,6 +48,7 @@ var _ = Describe("EtcdCluster Webhook", func() {
 			etcdCluster.Default()
 			gomega.Expect(*etcdCluster.Spec.Replicas).To(gomega.Equal(int32(5)))
 			gomega.Expect(etcdCluster.Spec.Storage.Size).To(gomega.Equal(resource.MustParse("10Gi")))
+			gomega.Expect(etcdCluster.Spec.Image).To(gomega.Equal("myregistry.local/etcd:v1.1.1"))
 		})
 	})
 

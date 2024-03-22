@@ -21,6 +21,9 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
+// defaultEtcdImage is the default image used for etcd cluster members
+const defaultEtcdImage = "quay.io/coreos/etcd:v3.5.12"
+
 type Storage struct {
 	StorageClass string            `json:"storageClass"`
 	Size         resource.Quantity `json:"size"`
@@ -28,6 +31,9 @@ type Storage struct {
 
 // EtcdClusterSpec defines the desired state of EtcdCluster
 type EtcdClusterSpec struct {
+	// Image is the etcd container image name
+	// +optional
+	Image string `json:"image,omitempty"`
 	// Replicas is the count of etcd instances in cluster.
 	// +optional
 	// +kubebuilder:default:=3

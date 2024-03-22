@@ -42,6 +42,9 @@ var _ webhook.Defaulter = &EtcdCluster{}
 // Default implements webhook.Defaulter so a webhook will be registered for the type
 func (r *EtcdCluster) Default() {
 	etcdclusterlog.Info("default", "name", r.Name)
+	if len(r.Spec.Image) == 0 {
+		r.Spec.Image = defaultEtcdImage
+	}
 	if r.Spec.Storage.Size.IsZero() {
 		r.Spec.Storage.Size = resource.MustParse("4Gi")
 	}

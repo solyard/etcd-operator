@@ -39,6 +39,9 @@ spec:
           spec:
             description: EtcdClusterSpec defines the desired state of EtcdCluster
             properties:
+              image:
+                description: Image is the etcd container image name
+                type: string
               replicas:
                 default: 3
                 description: Replicas is the count of etcd instances in cluster.
